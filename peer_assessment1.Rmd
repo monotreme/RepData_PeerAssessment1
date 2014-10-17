@@ -1,0 +1,28 @@
+Activity
+========================================================
+
+## Loading and preprocessing the data
+
+The following code reads the data.  Omitting records containing NA, the "aggregate" function is used to calculate the daily steps.
+
+```{r}
+activity_raw <- read.csv("activity.csv");
+activity <- na.omit(activity_raw);
+activity_bydate <- aggregate(activity$steps, by = list(activity$date), sum);
+activity_bydate$steps <- as.numeric(activity_bydate$Group.1);
+```
+
+A histogram of the number of daily steps is produced from the base plotting function, hist:
+
+```{r fig.width=7, fig.height=6}
+hist(activity_bydate$steps, xlab= "Daily Steps", main = "Activity Histogram");
+```
+
+The summary data shows the mean number of daily steps to be `r round(mean(activity_bydate$steps),digits=2)`, and median value of daily steps to be `r round(median(activity_bydate$steps), digits=2)`.  This text, however, used an inline calculation to 2 significant digits.
+
+```{r}
+summary(activity_bydate);
+```
+
+ 
+
